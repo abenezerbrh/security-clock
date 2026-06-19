@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Security Clock In/Out App
 
 Replaces a manual, paper based sign in/out process for security guards with
@@ -95,3 +96,6 @@ pitching this internally.
 - **manager**: everything a supervisor can do, plus manage venues
   (add/edit/deactivate) and view full shift history with filters, and
   create new staff accounts
+=======
+# security-clock
+>>>>>>> a3786f101f96c2a15c69a9baf93f88e976be50ac
