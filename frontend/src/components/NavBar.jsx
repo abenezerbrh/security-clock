@@ -14,6 +14,7 @@ export default function NavBar() {
         <Link to="/roster">Active Roster</Link>
         {isManager && <Link to="/history">History</Link>}
         {isManager && <Link to="/venues">Venues</Link>}
+        {isManager && <Link to="/report">Generate Report</Link>}
       </div>
       <div className="navbar-user">
         <span>{user.name} ({user.role})</span>

@@ -8,6 +8,7 @@ import ScanClockIn from './pages/ScanClockIn';
 import ActiveRoster from './pages/ActiveRoster';
 import ShiftHistory from './pages/ShiftHistory';
 import ManageVenues from './pages/ManageVenues';
+import GenerateReport from './pages/GenerateReport';
 
 export default function App() {
   return (
@@ -52,6 +53,16 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/report"
+            element={
+              <ProtectedRoute managerOnly>
+                <GenerateReport />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,49 +1,144 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
+:root {
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-ink: #1c2430;
+  --color-ink-soft: #5a6472;
+  --color-border: #e3e6ea;
+
+  --color-navy-900: #14202e;
+  --color-navy-800: #1c2c3e;
+  --color-navy-700: #28374a;
+
+  --color-accent: #3461eb;
+  --color-accent-hover: #2a4fc4;
+  --color-accent-soft: #eaf0ff;
+
+  --color-success: #1e8e4f;
+  --color-success-bg: #eaf8f0;
+  --color-success-border: #bfe6cd;
+
+  --color-danger: #c0392b;
+  --color-danger-bg: #fdecea;
+  --color-danger-border: #f3c7c1;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 32, 46, 0.06);
+  --shadow-md: 0 4px 16px rgba(20, 32, 46, 0.08);
+  --shadow-lg: 0 12px 32px rgba(20, 32, 46, 0.16);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f4f5f7;
-  color: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 var(--space-1) 0;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: var(--space-5) 0 var(--space-2) 0;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1e2a38;
+  background: var(--color-navy-900);
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: var(--space-3) var(--space-5);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 
 .navbar-links a {
-  color: white;
+  color: rgba(255, 255, 255, 0.78);
   text-decoration: none;
-  margin-right: 1.25rem;
   font-weight: 500;
+  font-size: 0.92rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .navbar-links a:hover {
-  text-decoration: underline;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  text-decoration: none;
 }
 
 .navbar-user {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 0.9rem;
+  gap: var(--space-3);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .navbar-user button {
-  background: #3a4a5c;
+  margin: 0;
+  background: var(--color-navy-700);
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.82rem;
+  box-shadow: none;
 }
 
+.navbar-user button:hover {
+  background: #3a4d65;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
 .page {
-  max-width: 900px;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: var(--space-6) var(--space-5);
 }
 
 .centered-page {
@@ -51,99 +146,158 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1e2a38;
+  background: linear-gradient(160deg, var(--color-navy-900), var(--color-navy-700));
 }
 
+/* ==========================================================================
+   Card (login)
+   ========================================================================== */
 .card {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 320px;
+  background: var(--color-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  width: 340px;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-lg);
 }
 
 .card h1 {
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 var(--space-1) 0;
 }
 
 .subtitle {
-  margin: 0 0 1.5rem 0;
-  color: #666;
+  margin: 0 0 var(--space-5) 0;
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
 }
 
+/* ==========================================================================
+   Forms
+   ========================================================================== */
 label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
-  margin-top: 0.75rem;
+  color: var(--color-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: var(--space-1);
+  margin-top: var(--space-3);
 }
 
 input, select {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
 button {
-  margin-top: 1rem;
-  padding: 0.65rem 1rem;
-  background: #2c5fd6;
+  margin-top: var(--space-4);
+  padding: 0.65rem 1.1rem;
+  background: var(--color-accent);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
 }
 
 button:hover {
-  background: #234ab0;
+  background: var(--color-accent-hover);
+  box-shadow: var(--shadow-md);
+}
+
+button:active {
+  transform: translateY(1px);
 }
 
 button:disabled {
-  background: #aaa;
+  background: #c2c8d1;
+  color: #6f7785;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .error-text {
-  color: #c0392b;
+  color: var(--color-danger);
   font-weight: 500;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  margin: var(--space-3) 0;
+  font-size: 0.9rem;
 }
 
+/* ==========================================================================
+   Mode toggle (scan vs manual entry)
+   ========================================================================== */
 .mode-toggle {
   display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
 }
 
 .mode-toggle button {
-  background: #e1e4e8;
-  color: #333;
+  background: var(--color-surface);
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-border);
   margin-top: 0;
+  box-shadow: none;
+}
+
+.mode-toggle button:hover {
+  background: var(--color-bg);
+  box-shadow: none;
 }
 
 .mode-toggle button.active {
-  background: #2c5fd6;
+  background: var(--color-accent);
   color: white;
+  border-color: var(--color-accent);
 }
 
+.mode-toggle button.active:hover {
+  background: var(--color-accent-hover);
+}
+
+/* ==========================================================================
+   Scan panel
+   ========================================================================== */
 .scan-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
 }
 
 .qr-scanner-region {
   width: 100%;
   max-width: 400px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
 }
 
 .hint {
-  color: #666;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  margin-top: var(--space-3);
 }
 
 .manual-entry {
@@ -153,78 +307,123 @@ button:disabled {
 }
 
 .status-message {
-  margin-top: 1rem;
+  margin-top: var(--space-4);
   font-weight: 500;
 }
 
+/* ==========================================================================
+   Result card (license lookup)
+   ========================================================================== */
 .result-card {
-  margin-top: 1.5rem;
-  padding: 1.25rem;
-  border-radius: 8px;
-  border: 2px solid;
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  box-shadow: var(--shadow-sm);
 }
 
 .result-card.active {
-  border-color: #2e9e44;
-  background: #eaf7ec;
+  border-color: var(--color-success-border);
+  background: var(--color-success-bg);
 }
 
 .result-card.inactive {
-  border-color: #c0392b;
-  background: #fdecea;
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-bg);
 }
 
 .result-card h2 {
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 var(--space-1) 0;
 }
 
 .status-badge {
+  display: inline-block;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  margin-top: var(--space-1);
+}
+
+.result-card.active .status-badge {
+  background: var(--color-success);
+  color: white;
+}
+
+.result-card.inactive .status-badge {
+  background: var(--color-danger);
+  color: white;
 }
 
 .warning-text {
-  color: #c0392b;
+  color: var(--color-danger);
   font-weight: 600;
+  margin-top: var(--space-2);
 }
 
+/* ==========================================================================
+   Venue select
+   ========================================================================== */
 .venue-select {
   display: flex;
   flex-direction: column;
-  max-width: 250px;
-  margin-bottom: 1rem;
+  max-width: 260px;
+  margin-bottom: var(--space-4);
 }
 
+/* ==========================================================================
+   Tables
+   ========================================================================== */
 .roster-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-  background: white;
+  margin-top: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
 }
 
 .roster-table th, .roster-table td {
   text-align: left;
-  padding: 0.6rem 0.8rem;
-  border-bottom: 1px solid #eee;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
 }
 
 .roster-table th {
-  background: #f0f1f3;
-  font-size: 0.85rem;
+  background: #fafbfc;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  color: #555;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+}
+
+.roster-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.roster-table tbody tr:hover {
+  background: var(--color-bg);
 }
 
 .roster-table button {
   margin: 0;
-  padding: 0.4rem 0.7rem;
-  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+  box-shadow: none;
 }
 
+/* ==========================================================================
+   Inline forms (e.g. add venue)
+   ========================================================================== */
 .inline-form {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
   align-items: flex-start;
 }
 
@@ -236,13 +435,61 @@ button:disabled {
   margin: 0;
 }
 
+/* ==========================================================================
+   Filters row
+   ========================================================================== */
 .filters-row {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
   align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
 }
 
 .filters-row button {
   margin: 0;
+}
+
+/* ==========================================================================
+   Report header
+   ========================================================================== */
+.report-meta {
+  margin: var(--space-1) 0;
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+@media print {
+  .navbar,
+  .filters-row,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .page {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .roster-table {
+    font-size: 0.85rem;
+    box-shadow: none;
+    border-color: #ccc;
+  }
+
+  .roster-table th {
+    background: #eee !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }

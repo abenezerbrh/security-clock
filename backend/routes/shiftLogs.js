@@ -122,11 +122,14 @@ router.get('/', requireAuth, requireRole('manager'), async (req, res) => {
       conditions.push(`sl.venue_id = $${params.length}`);
     }
     if (from) {
-      params.push(from);
+      // Midnight at the start of `from`, in Toronto local time, expressed as a UTC instant
+      const fromUtc = new Date(`${from}T00:00:00-04:00`); // adjust offset if needed for EST vs EDT
+      params.push(fromUtc.toISOString());
       conditions.push(`sl.clock_in_time >= $${params.length}`);
     }
     if (to) {
-      params.push(to);
+      const toUtc = new Date(`${to}T23:59:59.999-04:00`);
+      params.push(toUtc.toISOString());
       conditions.push(`sl.clock_in_time <= $${params.length}`);
     }
 
