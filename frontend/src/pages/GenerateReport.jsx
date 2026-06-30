@@ -2,6 +2,15 @@
 import { useState, useEffect } from 'react';
 import { api } from '../api/client';
 
+
+function formatDuration(clockIn, clockOut) {
+  if (!clockOut) return 'Ongoing';
+  const ms = new Date(clockOut).getTime() - new Date(clockIn).getTime();
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const minutes = Math.floor((ms / (1000 * 60)) % 60);
+  return `${hours}h ${minutes}m`;
+}
+
 export default function GenerateReport() {
   const [report, setReport] = useState([]);
   const [venues, setVenues] = useState([]);
@@ -97,6 +106,7 @@ export default function GenerateReport() {
               <th>Venue</th>
               <th>Clock In</th>
               <th>Clock Out</th>
+              <th>Duration</th>
               <th>Status at Check-in</th>
               <th>Logged By</th>
             </tr>
@@ -113,6 +123,7 @@ export default function GenerateReport() {
                     ? new Date(entry.clock_out_time).toLocaleString()
                     : 'Still clocked in'}
                 </td>
+                <td>{formatDuration(entry.clock_in_time, entry.clock_out_time)}</td>
                 <td>{entry.license_status_at_checkin}</td>
                 <td>{entry.logged_by_name}</td>
               </tr>
