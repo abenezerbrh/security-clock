@@ -78,22 +78,51 @@ h2 {
    Navigation
    ========================================================================== */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: var(--color-navy-900);
   color: white;
-  padding: var(--space-3) var(--space-5);
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: 10;
+  padding: 0 var(--space-5);
+}
+
+/* Top row: brand + hamburger toggle. Always visible. */
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+/* Hidden on desktop, shown only below the mobile breakpoint */
+.navbar-toggle {
+  display: none;
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  padding: var(--space-1) var(--space-2);
+  line-height: 1;
+}
+
+.navbar-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
   gap: var(--space-1);
+  flex-wrap: wrap;
 }
 
 .navbar-links a {
@@ -130,6 +159,78 @@ h2 {
 
 .navbar-user button:hover {
   background: #3a4d65;
+}
+
+/* ==========================================================================
+   Navigation: mobile breakpoint
+   ========================================================================== */
+@media (max-width: 720px) {
+  .navbar-toggle {
+    display: block;
+  }
+
+  /* On desktop, .navbar-top and .navbar-collapsible sit side by side as
+     one row. On mobile, the collapsible part drops below the top row and
+     is hidden by default, only shown once the hamburger is tapped. */
+  .navbar-collapsible {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    padding-bottom: var(--space-4);
+  }
+
+  .navbar-collapsible.open {
+    display: flex;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .navbar-links a {
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+
+  .navbar-user {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+
+  .navbar-user button {
+    width: 100%;
+    padding: var(--space-3);
+  }
+}
+
+/* Desktop: top row and collapsible content sit side by side as one bar */
+@media (min-width: 721px) {
+  .navbar-top {
+    width: auto;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar-brand {
+    display: none; /* brand text is redundant on desktop where links are visible */
+  }
+
+  .navbar-collapsible {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    padding: var(--space-3) 0;
+    gap: var(--space-4);
+  }
 }
 
 /* ==========================================================================
