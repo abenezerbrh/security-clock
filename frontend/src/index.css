@@ -58,7 +58,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-ink);
@@ -87,7 +89,6 @@ h2 {
   padding: 0 var(--space-5);
 }
 
-/* Top row: brand + hamburger toggle. Always visible. */
 .navbar-top {
   display: flex;
   align-items: center;
@@ -101,7 +102,6 @@ h2 {
   letter-spacing: -0.01em;
 }
 
-/* Hidden on desktop, shown only below the mobile breakpoint */
 .navbar-toggle {
   display: none;
   margin: 0;
@@ -165,13 +165,14 @@ h2 {
    Navigation: mobile breakpoint
    ========================================================================== */
 @media (max-width: 720px) {
+  .mobile-only {
+    display: flex !important;
+  }
+
   .navbar-toggle {
     display: block;
   }
 
-  /* On desktop, .navbar-top and .navbar-collapsible sit side by side as
-     one row. On mobile, the collapsible part drops below the top row and
-     is hidden by default, only shown once the hamburger is tapped. */
   .navbar-collapsible {
     display: none;
     flex-direction: column;
@@ -207,20 +208,22 @@ h2 {
   }
 }
 
-/* Desktop: top row and collapsible content sit side by side as one bar */
+/* ==========================================================================
+   Navigation: desktop
+   ========================================================================== */
 @media (min-width: 721px) {
-  .navbar-top {
-    width: auto;
-  }
-
   .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
+  .navbar-top {
+    width: auto;
+  }
+
   .navbar-brand {
-    display: none; /* brand text is redundant on desktop where links are visible */
+    display: none;
   }
 
   .navbar-collapsible {
@@ -286,7 +289,8 @@ label {
   margin-top: var(--space-3);
 }
 
-input, select {
+input,
+select {
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -296,7 +300,8 @@ input, select {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px var(--color-accent-soft);
@@ -487,7 +492,8 @@ button:disabled {
   border: 1px solid var(--color-border);
 }
 
-.roster-table th, .roster-table td {
+.roster-table th,
+.roster-table td {
   text-align: left;
   padding: 0.7rem 0.9rem;
   border-bottom: 1px solid var(--color-border);
@@ -519,7 +525,7 @@ button:disabled {
 }
 
 /* ==========================================================================
-   Inline forms (e.g. add venue)
+   Inline forms
    ========================================================================== */
 .inline-form {
   display: flex;
@@ -548,6 +554,7 @@ button:disabled {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .filters-row button {
@@ -564,13 +571,175 @@ button:disabled {
 }
 
 /* ==========================================================================
+   Responsive visibility helpers
+   ========================================================================== */
+.desktop-only {
+  display: table;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* ==========================================================================
+   Mobile breakpoint
+   ========================================================================== */
+@media (max-width: 720px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block !important;
+  }
+
+  .page {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters-row input,
+  .filters-row select {
+    width: 100%;
+  }
+
+  .filters-row button {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Roster cards (mobile layout for table pages)
+   ========================================================================== */
+.roster-cards {
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.roster-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.roster-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.roster-card-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-ink);
+}
+
+.roster-card-duration {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+}
+
+.roster-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.roster-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.roster-card-label {
+  color: var(--color-ink-soft);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.roster-card-clockout {
+  width: 100%;
+  margin: 0;
+  padding: var(--space-3);
+}
+
+.roster-card-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+
+.roster-card-status.status-active {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.roster-card-status.status-inactive {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger-border);
+}
+
+/* ==========================================================================
+   Venue add form
+   ========================================================================== */
+.venue-add-form {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.venue-add-form input {
+  margin: 0;
+  flex: 1;
+  min-width: 140px;
+}
+
+.venue-add-form button {
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
    Print styles
    ========================================================================== */
 @media print {
+
   .navbar,
   .filters-row,
-  .no-print {
+  .no-print,
+  .mobile-only {
     display: none !important;
+  }
+
+  .desktop-only {
+    display: table !important;
   }
 
   body {

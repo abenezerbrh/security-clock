@@ -35,8 +35,6 @@ export default function ActiveRoster() {
 
   useEffect(() => {
     loadRoster();
-    // Refresh periodically so the "currently clocked in" view stays live
-    // without the supervisor needing to manually reload.
     const interval = setInterval(loadRoster, 30000);
     return () => clearInterval(interval);
   }, [loadRoster]);
@@ -72,10 +70,10 @@ export default function ActiveRoster() {
 
       {error && <p className="error-text">{error}</p>}
       {loading && roster.length === 0 && <p>Loading...</p>}
-
       {!loading && roster.length === 0 && <p>No one is currently clocked in.</p>}
 
-      <table className="roster-table">
+      {/* Desktop: standard table */}
+      <table className="roster-table desktop-only">
         <thead>
           <tr>
             <th>Name</th>
@@ -97,12 +95,52 @@ export default function ActiveRoster() {
               <td>{formatDuration(entry.clock_in_time)}</td>
               <td>{entry.logged_by_name}</td>
               <td>
-                <button onClick={() => handleClockOut(entry.id)}>Clock Out</button>
+                <button onClick={() => handleClockOut(entry.id)}>
+                  Clock Out
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Mobile: card layout */}
+      <div className="roster-cards mobile-only">
+        {roster.map((entry) => (
+          <div key={entry.id} className="roster-card">
+            <div className="roster-card-header">
+              <span className="roster-card-name">{entry.guard_name}</span>
+              <span className="roster-card-duration">
+                {formatDuration(entry.clock_in_time)}
+              </span>
+            </div>
+            <div className="roster-card-body">
+              <div className="roster-card-row">
+                <span className="roster-card-label">License</span>
+                <span>{entry.license_number}</span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Venue</span>
+                <span>{entry.venue_name}</span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Clocked In</span>
+                <span>{new Date(entry.clock_in_time).toLocaleTimeString()}</span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Logged By</span>
+                <span>{entry.logged_by_name}</span>
+              </div>
+            </div>
+            <button
+              className="roster-card-clockout"
+              onClick={() => handleClockOut(entry.id)}
+            >
+              Clock Out
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

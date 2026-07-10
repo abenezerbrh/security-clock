@@ -42,7 +42,7 @@ export default function ManageVenues() {
 
       {error && <p className="error-text">{error}</p>}
 
-      <form className="inline-form" onSubmit={handleAdd}>
+      <form className="venue-add-form" onSubmit={handleAdd}>
         <input
           type="text"
           placeholder="Venue name"
@@ -58,7 +58,12 @@ export default function ManageVenues() {
         <button type="submit">Add Venue</button>
       </form>
 
-      <table className="roster-table">
+      {venues.length === 0 && !error && (
+        <p>No venues yet. Add one above.</p>
+      )}
+
+      {/* Desktop: standard table */}
+      <table className="roster-table desktop-only">
         <thead>
           <tr>
             <th>Name</th>
@@ -82,6 +87,38 @@ export default function ManageVenues() {
           ))}
         </tbody>
       </table>
+
+      {/* Mobile: card layout */}
+      <div className="roster-cards mobile-only">
+        {venues.map((v) => (
+          <div key={v.id} className="roster-card">
+            <div className="roster-card-header">
+              <span className="roster-card-name">{v.name}</span>
+              <span
+                className={`roster-card-status ${
+                  v.active ? 'status-active' : 'status-inactive'
+                }`}
+              >
+                {v.active ? 'Active' : 'Inactive'}
+              </span>
+            </div>
+            {v.address && (
+              <div className="roster-card-body">
+                <div className="roster-card-row">
+                  <span className="roster-card-label">Address</span>
+                  <span>{v.address}</span>
+                </div>
+              </div>
+            )}
+            <button
+              className="roster-card-clockout"
+              onClick={() => handleToggleActive(v)}
+            >
+              {v.active ? 'Deactivate' : 'Reactivate'}
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

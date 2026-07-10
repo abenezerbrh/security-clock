@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../api/client';
 
-
 function formatDuration(clockIn, clockOut) {
   if (!clockOut) return 'Ongoing';
   const ms = new Date(clockOut).getTime() - new Date(clockIn).getTime();
@@ -19,8 +18,6 @@ export default function GenerateReport() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [venueId, setVenueId] = useState('');
-  // Tracks whether a report has actually been generated yet, so we don't
-  // show "0 entries" before the user has even clicked the button once.
   const [hasGenerated, setHasGenerated] = useState(false);
 
   useEffect(() => {
@@ -49,8 +46,6 @@ export default function GenerateReport() {
     window.print();
   }
 
-  // Resolves the selected venue's name for display in the printed header.
-  // Falls back to "All Venues" when no specific venue is selected.
   const selectedVenueName =
     venues.find((v) => v.id === venueId)?.name || 'All Venues';
 
@@ -79,9 +74,6 @@ export default function GenerateReport() {
 
       {error && <p className="error-text">{error}</p>}
 
-      {/* This header only shows once a report has actually been generated,
-          and it's what prints, since the filter controls above are hidden
-          on the printed page. */}
       {hasGenerated && !error && (
         <>
           <h2>Shift Report</h2>
@@ -98,38 +90,93 @@ export default function GenerateReport() {
       )}
 
       {report.length > 0 && (
-        <table className="roster-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>License #</th>
-              <th>Venue</th>
-              <th>Clock In</th>
-              <th>Clock Out</th>
-              <th>Duration</th>
-              <th>Status at Check-in</th>
-              <th>Logged By</th>
-            </tr>
-          </thead>
-          <tbody>
-            {report.map((entry) => (
-              <tr key={entry.id}>
-                <td>{entry.guard_name}</td>
-                <td>{entry.license_number}</td>
-                <td>{entry.venue_name}</td>
-                <td>{new Date(entry.clock_in_time).toLocaleString()}</td>
-                <td>
-                  {entry.clock_out_time
-                    ? new Date(entry.clock_out_time).toLocaleString()
-                    : 'Still clocked in'}
-                </td>
-                <td>{formatDuration(entry.clock_in_time, entry.clock_out_time)}</td>
-                <td>{entry.license_status_at_checkin}</td>
-                <td>{entry.logged_by_name}</td>
+        <>
+          {/* Desktop: standard table, also what actually prints */}
+          <table className="roster-table desktop-only">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>License #</th>
+                <th>Venue</th>
+                <th>Clock In</th>
+                <th>Clock Out</th>
+                <th>Duration</th>
+                <th>Status at Check-in</th>
+                <th>Logged By</th>
               </tr>
+            </thead>
+            <tbody>
+              {report.map((entry) => (
+                <tr key={entry.id}>
+                  <td>{entry.guard_name}</td>
+                  <td>{entry.license_number}</td>
+                  <td>{entry.venue_name}</td>
+                  <td>{new Date(entry.clock_in_time).toLocaleString()}</td>
+                  <td>
+                    {entry.clock_out_time
+                      ? new Date(entry.clock_out_time).toLocaleString()
+                      : 'Still clocked in'}
+                  </td>
+                  <td>{formatDuration(entry.clock_in_time, entry.clock_out_time)}</td>
+                  <td>{entry.license_status_at_checkin}</td>
+                  <td>{entry.logged_by_name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Mobile: card layout */}
+          <div className="roster-cards mobile-only">
+            {report.map((entry) => (
+              <div key={entry.id} className="roster-card">
+                <div className="roster-card-header">
+                  <span className="roster-card-name">{entry.guard_name}</span>
+                  <span className="roster-card-duration">
+                    {formatDuration(entry.clock_in_time, entry.clock_out_time)}
+                  </span>
+                </div>
+                <div className="roster-card-body">
+                  <div className="roster-card-row">
+                    <span className="roster-card-label">License</span>
+                    <span>{entry.license_number}</span>
+                  </div>
+                  <div className="roster-card-row">
+                    <span className="roster-card-label">Venue</span>
+                    <span>{entry.venue_name}</span>
+                  </div>
+                  <div className="roster-card-row">
+                    <span className="roster-card-label">Clock In</span>
+                    <span>{new Date(entry.clock_in_time).toLocaleString()}</span>
+                  </div>
+                  <div className="roster-card-row">
+                    <span className="roster-card-label">Clock Out</span>
+                    <span>
+                      {entry.clock_out_time
+                        ? new Date(entry.clock_out_time).toLocaleString()
+                        : 'Still clocked in'}
+                    </span>
+                  </div>
+                  <div className="roster-card-row">
+                    <span className="roster-card-label">Status</span>
+                    <span
+                      className={`roster-card-status ${
+                        entry.license_status_at_checkin?.toLowerCase() === 'active'
+                          ? 'status-active'
+                          : 'status-inactive'
+                      }`}
+                    >
+                      {entry.license_status_at_checkin}
+                    </span>
+                  </div>
+                  <div className="roster-card-row">
+                    <span className="roster-card-label">Logged By</span>
+                    <span>{entry.logged_by_name}</span>
+                  </div>
+                </div>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </>
       )}
     </div>
   );

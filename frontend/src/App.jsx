@@ -55,7 +55,7 @@ export default function App() {
           />
 
           <Route
-            path="/report"
+            path="/reports"
             element={
               <ProtectedRoute managerOnly>
                 <GenerateReport />

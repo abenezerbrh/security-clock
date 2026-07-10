@@ -53,7 +53,12 @@ export default function ShiftHistory() {
 
       {error && <p className="error-text">{error}</p>}
 
-      <table className="roster-table">
+      {history.length === 0 && !error && (
+        <p>No shifts found.</p>
+      )}
+
+      {/* Desktop: standard table */}
+      <table className="roster-table desktop-only">
         <thead>
           <tr>
             <th>Name</th>
@@ -83,6 +88,52 @@ export default function ShiftHistory() {
           ))}
         </tbody>
       </table>
+
+      {/* Mobile: card layout */}
+      <div className="roster-cards mobile-only">
+        {history.map((entry) => (
+          <div key={entry.id} className="roster-card">
+            <div className="roster-card-header">
+              <span className="roster-card-name">{entry.guard_name}</span>
+              <span
+                className={`roster-card-status ${
+                  entry.license_status_at_checkin?.toLowerCase() === 'active'
+                    ? 'status-active'
+                    : 'status-inactive'
+                }`}
+              >
+                {entry.license_status_at_checkin}
+              </span>
+            </div>
+            <div className="roster-card-body">
+              <div className="roster-card-row">
+                <span className="roster-card-label">License</span>
+                <span>{entry.license_number}</span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Venue</span>
+                <span>{entry.venue_name}</span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Clock In</span>
+                <span>{new Date(entry.clock_in_time).toLocaleString()}</span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Clock Out</span>
+                <span>
+                  {entry.clock_out_time
+                    ? new Date(entry.clock_out_time).toLocaleString()
+                    : 'Still clocked in'}
+                </span>
+              </div>
+              <div className="roster-card-row">
+                <span className="roster-card-label">Logged By</span>
+                <span>{entry.logged_by_name}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
